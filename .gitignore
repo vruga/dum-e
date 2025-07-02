@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Virtual environment
+bin/
+lib/
+lib64/
+pyvenv.cfg
+*.rrd
+
+# Temporary and backup files
+*.temp.xml
+CACHEDIR.TAG
+
+# IDE/configs
+.vscode/
+*.log

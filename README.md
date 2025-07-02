@@ -40,50 +40,16 @@ A comprehensive robotics simulation project implementing forward and inverse kin
 ### Basic Simulation
 ```bash
 # Run the basic arm simulation
-uv run python src/simulate_arm.py
+uv run python simulation/simulate.py
 
 # Run forward kinematics demo
-uv run python src/forward_kinematics.py
+uv run python simulation/forward_kinematics.py
 
 # Run inverse kinematics demo
-uv run python src/inverse_kinematics.py
+uv run python simulation/inverse_kinematics.py
 ```
 
-### Interactive Mode
-```bash
-# Launch interactive kinematics playground
-uv run python src/interactive_demo.py
-```
 
-## 📁 Project Structure
-
-```
-so100-arm-mujoco/
-├── assets/
-│   ├── so100_arm.xml          # MuJoCo model definition
-│   ├── meshes/                # 3D mesh files
-│   └── textures/              # Material textures
-├── src/
-│   ├── __init__.py
-│   ├── arm_model.py           # SO-100 arm class definition
-│   ├── forward_kinematics.py  # Forward kinematics implementation
-│   ├── inverse_kinematics.py  # Inverse kinematics solver
-│   ├── simulate_arm.py        # Main simulation script
-│   └── interactive_demo.py    # Interactive demonstration
-├── tests/
-│   ├── test_forward_kin.py    # Forward kinematics tests
-│   ├── test_inverse_kin.py    # Inverse kinematics tests
-│   └── test_arm_model.py      # Arm model tests
-├── docs/
-│   ├── kinematics_theory.md   # Mathematical background
-│   └── api_reference.md       # API documentation
-├── examples/
-│   ├── trajectory_planning.py # Sample trajectory examples
-│   └── workspace_analysis.py  # Workspace visualization
-├── pyproject.toml             # uv configuration
-├── README.md
-└── .gitignore
-```
 
 ## 🔧 Usage Examples
 
@@ -114,25 +80,8 @@ joint_solution = arm.inverse_kinematics(target_pose)
 print(f"Joint angles: {joint_solution}")
 ```
 
-## 🧪 Testing
 
-Run the test suite:
-```bash
-# Run all tests
-uv run pytest
 
-# Run specific test file
-uv run pytest tests/test_forward_kin.py -v
-
-# Run with coverage
-uv run pytest --cov=src tests/
-```
-
-## 📊 Performance
-
-- **Forward Kinematics**: ~0.1ms per calculation
-- **Inverse Kinematics**: ~5ms per solution (iterative solver)
-- **Simulation Rate**: 1000Hz physics, 60Hz rendering
 
 ## 🔬 Technical Details
 
@@ -199,11 +148,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [SO-100 ARM Technical Specifications](https://example.com/so100-specs)
 - [Modern Robotics: Mechanics, Planning, and Control](http://modernrobotics.org/)
 
-## 📞 Support
-
-- Create an issue for bug reports or feature requests
-- Join our [Discord community](https://discord.gg/robotics-sim)
-- Email: support@yourproject.com
 
 ---
 

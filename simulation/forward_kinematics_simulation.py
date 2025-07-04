@@ -17,6 +17,8 @@ class MuJoCoForwardKinematics:
         ]
         self.joint_ids = [mujoco.mj_name2id(self.model, mujoco.mjtObj.mjOBJ_JOINT, name)
                           for name in self.joint_names]
+        #lo, hi = self.model.jnt_range[self.joint_ids]
+        #print(f"{name:12s}: [{lo:.2f}, {hi:.2f}] rad")
 
         self.end_effector_id = mujoco.mj_name2id(
             self.model, mujoco.mjtObj.mjOBJ_BODY, 'Moving_Jaw')
@@ -26,6 +28,9 @@ class MuJoCoForwardKinematics:
 
         print("Loaded model with joints:", self.joint_names)
         print("End-effector body ID:", self.end_effector_id)
+       
+            
+
 
     def set_joint_angles(self, joint_angles: List[float]):
         for name, angle in zip(self.joint_names, joint_angles):
@@ -48,17 +53,29 @@ class MuJoCoForwardKinematics:
                     angles_deg = []
                     for name in self.joint_names[:-1]:  # all but gripper
                         angle = float(input(f"{name}: "))
-                        angles_deg.append(math.radians(angle))
+                        angle = math.radians(angle)
+                        j_id   = mujoco.mj_name2id(self.model, mujoco.mjtObj.mjOBJ_JOINT, name)
+                        lo, hi = self.model.jnt_range[j_id]
+                        if not (lo <= angle <= hi):
+                            raise RuntimeError("Skipping input by request")
+
+                        angles_deg.append(angle)
                     grip = float(input("Gripper (0 = close, 1 = open): "))
                     grip_angle = 0.8 if grip else 0.0
                     angles_deg.append(grip_angle)
+                    #for name in ["Rotation","Pitch","Elbow","Wrist_Pitch","Wrist_Roll","Jaw"]:
+                     #   j_id   = mujoco.mj_name2id(self.model, mujoco.mjtObj.mjOBJ_JOINT, name)
+                    #
+                       # print(f"{name:12s}: [{lo:.2f}, {hi:.2f}] rad")
 
                     self.set_joint_angles(angles_deg)
                     pos, _ = self.get_end_effector_pose()
 
                     print("\nEnd-effector position:")
                     print(f"x = {pos[0]:.5f}, y = {pos[1]:.5f}, z = {pos[2]:.5f}")
-
+                except RuntimeError as ee:
+                    print("Angle out of limits")
+                    continue
                 except Exception as e:
                     print("Invalid input:", e)
                     continue
